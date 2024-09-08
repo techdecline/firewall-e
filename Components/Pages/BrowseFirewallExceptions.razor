@@ -1,0 +1,55 @@
+@page "/browse-firewall-exceptions"
+@inject IFirewallExceptionService FirewallExceptionService
+@using firewall_e.Models
+
+<h3>Browse Firewall Exceptions</h3>
+
+@if (firewallExceptions == null)
+{
+    <p>Loading...</p>
+}
+else if (!firewallExceptions.Any())
+{
+    <p>No firewall exceptions found.</p>
+}
+else
+{
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Source Address</th>
+            <th>Protocol</th>
+            <th>FQDNs</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var exception in firewallExceptions)
+            {
+                <tr>
+                    <td>@exception.SourceAddress</td>
+                    <td>@exception.Protocol</td>
+                    <td>@exception.Fqdns</td>
+                    <td>
+                        <button class="btn btn-danger" @onclick="() => DeleteException(exception)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<FirewallExceptionModel> firewallExceptions;
+
+    protected override async Task OnInitializedAsync()
+    {
+        firewallExceptions = await FirewallExceptionService.GetExceptionsAsync();
+    }
+
+    private async Task DeleteException(FirewallExceptionModel exception)
+    {
+        await FirewallExceptionService.DeleteExceptionAsync(exception);
+        firewallExceptions = await FirewallExceptionService.GetExceptionsAsync();
+    }
+}

@@ -3,7 +3,7 @@
 @inject IFirewallExceptionService FirewallExceptionService
 @using firewall_e.Models
 
-<EditForm Model="@firewallException" OnValidSubmit="@HandleValidSubmit">
+<EditForm Model="@firewallException" OnValidSubmit="@HandleValidSubmit" FormName="firewallForm">
     <DataAnnotationsValidator />
     <ValidationSummary />
 

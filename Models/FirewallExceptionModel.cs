@@ -4,14 +4,14 @@ namespace firewall_e.Models
 {
     public class FirewallExceptionModel
     {
-        [Required]
+        [Required(ErrorMessage = "Source Address is required.")]
         [RegularExpression(@"^([0-9]{1,3}\.){3}[0-9]{1,3}(\/[0-9]{1,2})?$", ErrorMessage = "Invalid CIDR format.")]
         public string SourceAddress { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Protocol is required.")]
         public string Protocol { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "FQDNs are required.")]
         [CustomValidation(typeof(FqdnValidator), nameof(FqdnValidator.ValidateFqdns))]
         public string Fqdns { get; set; }
     }
@@ -20,6 +20,11 @@ namespace firewall_e.Models
     {
         public static ValidationResult ValidateFqdns(string fqdns, ValidationContext context)
         {
+            if (string.IsNullOrWhiteSpace(fqdns))
+            {
+                return new ValidationResult("FQDNs are required.");
+            }
+
             var fqdnList = fqdns.Split(',');
             foreach (var fqdn in fqdnList)
             {
