@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/firewall-e.props" />
+</Project>
