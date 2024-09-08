@@ -1,5 +1,7 @@
 @page "/add-firewall-exception"
 @using System.ComponentModel.DataAnnotations
+@inject IFirewallExceptionService FirewallExceptionService
+@using firewall_e.Models
 
 <EditForm Model="@firewallException" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
@@ -32,39 +34,9 @@
 @code {
     private FirewallExceptionModel firewallException = new FirewallExceptionModel();
 
-    private void HandleValidSubmit()
+    private async Task HandleValidSubmit()
     {
-        // Handle the form submission logic here
-        Console.WriteLine("Form submitted successfully!");
-    }
-
-    public class FirewallExceptionModel
-    {
-        [Required]
-        [RegularExpression(@"^([0-9]{1,3}\.){3}[0-9]{1,3}(\/[0-9]{1,2})?$", ErrorMessage = "Invalid CIDR format.")]
-        public string SourceAddress { get; set; }
-
-        [Required]
-        public string Protocol { get; set; }
-
-        [Required]
-        [CustomValidation(typeof(FqdnValidator), nameof(FqdnValidator.ValidateFqdns))]
-        public string Fqdns { get; set; }
-    }
-
-    public static class FqdnValidator
-    {
-        public static ValidationResult ValidateFqdns(string fqdns, ValidationContext context)
-        {
-            var fqdnList = fqdns.Split(',');
-            foreach (var fqdn in fqdnList)
-            {
-                if (!Uri.CheckHostName(fqdn.Trim()).Equals(UriHostNameType.Dns))
-                {
-                    return new ValidationResult("Invalid FQDN format.");
-                }
-            }
-            return ValidationResult.Success;
-        }
+        await FirewallExceptionService.SaveExceptionAsync(firewallException);
+        Console.WriteLine("Form submitted and exception saved successfully!");
     }
 }

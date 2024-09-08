@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("firewall-e")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c49867dcab613594a15bb3b15b46e5d704cffc41")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c105da5317b9f2513d29f30e467ab03381e719e2")]
 [assembly: System.Reflection.AssemblyProductAttribute("firewall-e")]
 [assembly: System.Reflection.AssemblyTitleAttribute("firewall-e")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
